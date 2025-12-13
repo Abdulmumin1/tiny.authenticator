@@ -1,5 +1,5 @@
 {
-  "version": "0.0.12",
+  "version": "0.0.13",
   "name": "tinyuth",
   "module": "index.tsx",
   "type": "module",

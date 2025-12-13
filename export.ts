@@ -79,8 +79,8 @@ export async function generateGoogleMigrationQR(
   // Encode
   const message = MigrationPayload.create(payload);
   const buffer = MigrationPayload.encode(message).finish();
-  // @ts-ignore
-  const dataParam = buffer
+
+  const dataParam = Buffer.from(buffer)
     .toString("base64")
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
