@@ -4,7 +4,7 @@ A modern, secure command-line TOTP (Time-based One-Time Password) authenticator 
 
 
 ```bash
-bun add -g tinyuth 
+bun add -g tinyuth@latest
 # or npm or pnpm
 ```
 
