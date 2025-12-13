@@ -124,4 +124,4 @@ Built with:
 
 ## License
 
-[Add license information]
+[MIT License](/LICENSE)
