@@ -1,0 +1,40 @@
+{
+  "version": "0.0.01",
+  "name": "tinyuth",
+  "module": "index.tsx",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/clipboardy": "^2.0.4",
+    "@types/react": "^19.2.7"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "build:node": "bun build ./index.tsx --outdir ./dist --target node",
+    "build:bin": "bun build --compile --minify ./index.tsx --outfile tiny-uth"
+  },
+  "bin": {
+    "tinyuth": "out/index.js"
+  },
+  "dependencies": {
+    "base32-decode": "^1.0.0",
+    "cfonts": "^3.3.1",
+    "clipboardy": "^5.0.1",
+    "figlet": "^1.9.4",
+    "ink": "^6.5.1",
+    "ink-big-text": "^2.0.0",
+    "ink-text-input": "^6.0.0",
+    "jimp": "^1.6.0",
+    "jsqr": "^1.4.0",
+    "keytar": "^7.9.0",
+    "protobufjs": "^7.5.4",
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0",
+    "react": "^19.2.3",
+    "react-devtools-core": "^7.0.1",
+    "screenshot-desktop": "^1.15.3"
+  }
+}
