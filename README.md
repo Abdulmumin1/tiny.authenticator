@@ -8,7 +8,7 @@ bun add -g tinyuth@latest
 # or npm or pnpm
 ```
 
-![](https://rawcontent.dearfutureself.me/portfolio/tiny.auth-image-1.png)
+![](https://rawcontent.dearfutureself.me/portfolio/tiny-uth-image-2.png)
 
 ## TOTP Algorithm Overview
 
