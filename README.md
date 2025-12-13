@@ -1,6 +1,6 @@
 # Tiny Authenticator
 
-A modern, secure command-line TOTP (Time-based One-Time Password) authenticator built with TypeScript and Ink. Manage your 2FA tokens with ease, supporting registration via QR codes, secure storage, and export/import capabilities compatible with Google Authenticator.
+A Cli TOTP (Time-based One-Time Password) authenticator built with TypeScript and Ink. Manage your 2FA tokens with ease, supporting registration via QR codes, secure storage, and export/import capabilities compatible with Google Authenticator.
 
 
 ```bash
