@@ -81108,7 +81108,7 @@ import crypto from "crypto";
 class Authenticator {
   interval = 30;
   algorithm = "sha1";
-  SERVICE_NAME = "TINY_AUTHENTICATOR_TEST";
+  SERVICE_NAME = "TINY_AUTHENTICATOR";
   constructor(interval = 30) {
     this.interval = interval;
   }
