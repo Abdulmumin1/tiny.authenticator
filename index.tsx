@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import React, { useState, useEffect } from "react";
 import { render, Text, Box, useInput, useApp } from "ink";
 import TextInput from "ink-text-input";

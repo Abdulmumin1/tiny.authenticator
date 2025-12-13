@@ -2,6 +2,12 @@
 
 A modern, secure command-line TOTP (Time-based One-Time Password) authenticator built with TypeScript and Ink. Manage your 2FA tokens with ease, supporting registration via QR codes, secure storage, and export/import capabilities compatible with Google Authenticator.
 
+
+```bash
+bun add -g tinyuth 
+# or npm or pnpm
+```
+
 ![](https://rawcontent.dearfutureself.me/portfolio/tiny.auth-image-1.png)
 
 ## TOTP Algorithm Overview
@@ -30,7 +36,7 @@ TOTP (Time-based One-Time Password) is a standard for generating temporary passw
 - **Encrypted Storage**: Secrets stored in OS-native secure storage
 - **Temporary Displays**: QR codes shown only when requested
 
-## Installation
+## Contributing
 
 ```bash
 # Clone the repository
@@ -46,36 +52,39 @@ bun install
 ### Basic Commands
 
 ```bash
+# install
+bun add -g tinyuth 
+
 # Show usage
-bun run index.tsx
+tinyuth
 
 # Register by capturing QR code from screen
-bun run index.tsx register cc
+tinyuth register cc
 
 # Register a new token manually
-bun run index.tsx register
+tinyuth register
 
 # Show all tokens
-bun run index.tsx show
+tinyuth show
 
 # Show specific account token
-bun run index.tsx show "GitHub:username"
+tinyuth "GitHub:username"
 ```
 
 ### Import/Export
 
 ```bash
 # Import from Google Authenticator migration URI
-bun run index.tsx import google "otpauth-migration://..."
+tinyuth import google "otpauth-migration://..."
 
 # Import from QR code image file
-bun run index.tsx import qr /path/to/qr.png
+tinyuth import qr /path/to/qr.png
 
 # Export all accounts as Google migration QR
-bun run index.tsx export google
+tinyuth export google
 
 # Export single account as QR
-bun run index.tsx export qr "issuer:name"
+tinyuth export qr "issuer:name"
 ```
 
 ## Command Reference

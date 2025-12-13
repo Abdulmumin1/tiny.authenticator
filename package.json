@@ -1,5 +1,5 @@
 {
-  "version": "0.0.0",
+  "version": "0.0.12",
   "name": "tinyuth",
   "module": "index.tsx",
   "type": "module",
@@ -16,7 +16,7 @@
     "build:bin": "bun build --compile --minify ./index.tsx --outfile tinyuth"
   },
   "bin": {
-    "tinyuth": "out/index.js"
+    "tinyuth": "dist/index.js"
   },
   "dependencies": {
     "base32-decode": "^1.0.0",
