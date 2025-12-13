@@ -81098,7 +81098,7 @@ var clipboard6 = {
 var clipboardy_default = clipboard6;
 
 // index.tsx
-var import_base32_decode4 = __toESM(require_base32_decode(), 1);
+var import_base32_decode3 = __toESM(require_base32_decode(), 1);
 
 // authenticator.ts
 var keytar = __toESM(require_keytar2(), 1);
@@ -81108,7 +81108,7 @@ import crypto from "crypto";
 class Authenticator {
   interval = 30;
   algorithm = "sha1";
-  SERVICE_NAME = "TINY_AUTHENTICATOR";
+  SERVICE_NAME = "TINY_AUTHENTICATOR_TEST";
   constructor(interval = 30) {
     this.interval = interval;
   }
@@ -92890,8 +92890,6 @@ var Jimp = createJimp({
 
 // import.ts
 var import_jsqr = __toESM(require_jsQR(), 1);
-var import_qrcode_terminal = __toESM(require_main(), 1);
-var import_base32_decode2 = __toESM(require_base32_decode(), 1);
 import { exec as exec2 } from "child_process";
 import { promisify as promisify4 } from "util";
 import fs6 from "fs";
@@ -93034,8 +93032,8 @@ function parseOtpAuthUri(uri) {
 
 // export.ts
 var import_protobufjs2 = __toESM(require_src(), 1);
-var import_qrcode_terminal2 = __toESM(require_main(), 1);
-var import_base32_decode3 = __toESM(require_base32_decode(), 1);
+var import_qrcode_terminal = __toESM(require_main(), 1);
+var import_base32_decode2 = __toESM(require_base32_decode(), 1);
 var typeDefs2 = `
 syntax = "proto3";
 message MigrationPayload {
@@ -93078,7 +93076,7 @@ async function generateGoogleMigrationQR(accounts) {
   const root = import_protobufjs2.default.parse(typeDefs2).root;
   const MigrationPayload = root.lookupType("MigrationPayload");
   const otpParameters = accounts.map((acc) => ({
-    secret: Buffer.from(import_base32_decode3.default(acc.secret, "RFC4648")),
+    secret: Buffer.from(import_base32_decode2.default(acc.secret, "RFC4648")),
     name: acc.name,
     issuer: acc.issuer,
     algorithm: 1,
@@ -93094,16 +93092,15 @@ async function generateGoogleMigrationQR(accounts) {
   };
   const message = MigrationPayload.create(payload);
   const buffer = MigrationPayload.encode(message).finish();
-  const dataParam = buffer.toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+  const dataParam = Buffer.from(buffer).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
   const uri = `otpauth-migration://offline?data=${dataParam}`;
   console.log("Scan this QR code with Google Authenticator to import all accounts:");
-  console.log(uri);
-  import_qrcode_terminal2.default.generate(uri, { small: true });
+  import_qrcode_terminal.default.generate(uri, { small: true });
 }
 function exportSingleAccountQR(issuer, name, secret) {
   const uri = generateOtpAuthUri(issuer, name, secret);
   console.log(`QR code for ${issuer}:${name}:`);
-  import_qrcode_terminal2.default.generate(uri, { small: true });
+  import_qrcode_terminal.default.generate(uri, { small: true });
 }
 // tiny.json
 var tiny_default = {
@@ -93414,7 +93411,7 @@ var RegisterComponent = ({ onDone }) => {
         if (!secret.trim())
           return setError("Secret is required");
         try {
-          import_base32_decode4.default(secret.trim(), "RFC4648");
+          import_base32_decode3.default(secret.trim(), "RFC4648");
         } catch (e) {
           return setError("Invalid base32 secret");
         }

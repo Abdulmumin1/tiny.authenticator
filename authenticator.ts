@@ -5,7 +5,7 @@ import base32Decode from "base32-decode";
 export class Authenticator {
   interval: number = 30;
   algorithm: string = "sha1";
-  SERVICE_NAME: string = process.env.NODE_ENV == "dev" ? 'TINY_AUTHENTICATOR_TEST' : "TINY_AUTHENTICATOR";
+  SERVICE_NAME: string = process.env.NODE_ENV == "dev" ? 'TINY_AUTHENTICATOR_TEST' : "TINY_AUTHENTICATOR_TEST";
 
   constructor(interval: number = 30) {
     this.interval = interval;

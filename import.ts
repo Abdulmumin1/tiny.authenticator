@@ -6,12 +6,10 @@ import { promisify } from 'util'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
-import qrcode from 'qrcode-terminal'
-import base32Decode from 'base32-decode'
 
 const execAsync = promisify(exec)
 
-// 1. The Google Auth Migration Protocol Buffer Schema
+// The Google Auth Migration Protocol Buffer Schema
 const typeDefs = `
 syntax = "proto3";
 message MigrationPayload {
@@ -47,7 +45,7 @@ message MigrationPayload {
 }
 `;
 
-// 2. Helper function to convert Buffer to Base32 (RFC 4648)
+// Helper function to convert Buffer to Base32 (RFC 4648)
 // This is required to make the secret readable for password managers
 function toBase32(buffer:any) {
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -69,7 +67,6 @@ function toBase32(buffer:any) {
     return output;
 }
 
-// 3. QR Code Reading
 export async function readQRCode(imagePath: string): Promise<string> {
     const image = await Jimp.read(imagePath);
     const { data, width, height } = image.bitmap;
@@ -80,7 +77,7 @@ export async function readQRCode(imagePath: string): Promise<string> {
     return code.data;
 }
 
-// 4. Selection Screenshot QR Reading
+// Selection Screenshot QR Reading
 export async function readQRFromSelection(): Promise<string> {
     const tempPath = path.join(os.tmpdir(), 'auth_screenshot.png');
 
@@ -106,12 +103,10 @@ export async function readQRFromSelection(): Promise<string> {
             throw new Error("Selection screenshot not supported on this platform");
         }
 
-        // Check if file exists
         if (!fs.existsSync(tempPath)) {
             throw new Error("Screenshot cancelled or failed");
         }
 
-        // Read and decode QR
         const uri = await readQRCode(tempPath);
 
         // Cleanup
@@ -119,7 +114,6 @@ export async function readQRFromSelection(): Promise<string> {
 
         return uri;
     } catch (error) {
-        // Cleanup on error
         if (fs.existsSync(tempPath)) {
             fs.unlinkSync(tempPath);
         }
@@ -127,25 +121,21 @@ export async function readQRFromSelection(): Promise<string> {
     }
 }
 
-// 4. Main Execution
 export async function decode(uriString: string) {
-    // Parse the schema
     const root = protobuf.parse(typeDefs).root;
     const MigrationPayload = root.lookupType("MigrationPayload");
 
     try {
-        // Extract the 'data' parameter
         const urlParams = new URLSearchParams(uriString.split('?')[1]);
         const dataParam = urlParams.get('data');
 
-        // Convert base64url to base64
         const base64 = dataParam.replace(/-/g, '+').replace(/_/g, '/');
 
-        // Decode Base64
         const buffer = Buffer.from(base64, 'base64');
 
         // Decode Protobuf
         const message = MigrationPayload.decode(buffer);
+
 
         //@ts-ignore Return the decoded accounts
         const accounts = message.otpParameters.map((otp) => {
@@ -166,7 +156,6 @@ export async function decode(uriString: string) {
     }
 }
 
-// 5. Parse otpauth URI
 export function parseOtpAuthUri(uri: string) {
     // otpauth://totp/issuer:name?secret=...&issuer=...
     const url = new URL(uri);
@@ -186,50 +175,7 @@ export function parseOtpAuthUri(uri: string) {
     return { issuer, name, secret };
 }
 
-// 6. Generate otpauth URI
 export function generateOtpAuthUri(issuer: string, name: string, secret: string): string {
     const label = `${issuer}:${name}`;
     return `otpauth://totp/${encodeURIComponent(label)}?secret=${secret}&issuer=${encodeURIComponent(issuer)}`;
-}
-
-// 7. Generate Google Migration QR
-export async function generateGoogleMigrationQR(accounts: { issuer: string; name: string; secret: string }[]): Promise<void> {
-    // Parse the schema
-    const root = protobuf.parse(typeDefs).root;
-    const MigrationPayload = root.lookupType("MigrationPayload");
-
-    // Create payload
-    const otpParameters = accounts.map(acc => ({
-        secret: Buffer.from(base32Decode(acc.secret, 'RFC4648')),
-        name: acc.name,
-        issuer: acc.issuer,
-        algorithm: 1, // SHA1
-        digits: 6,
-        type: 2, // TOTP
-    }));
-
-    const payload = {
-        otpParameters,
-        version: 1,
-        batchSize: accounts.length,
-        batchIndex: 0,
-        batchId: Math.floor(Math.random() * 1000000),
-    };
-
-    // Encode
-    const message = MigrationPayload.create(payload);
-    const buffer = MigrationPayload.encode(message).finish();
-    const dataParam = buffer.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-
-    const uri = `otpauth-migration://offline?data=${dataParam}`;
-
-    console.log("Scan this QR code with Google Authenticator to import all accounts:");
-    qrcode.generate(uri, { small: true });
-}
-
-// 8. Export single account QR
-export function exportSingleAccountQR(issuer: string, name: string, secret: string): void {
-    const uri = generateOtpAuthUri(issuer, name, secret);
-    console.log(`QR code for ${issuer}:${name}:`);
-    qrcode.generate(uri, { small: true });
 }

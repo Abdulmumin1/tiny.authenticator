@@ -2,7 +2,7 @@ import protobuf from "protobufjs";
 import qrcode from "qrcode-terminal";
 import base32Decode from "base32-decode";
 
-// 1. The Google Auth Migration Protocol Buffer Schema
+// The Google Auth Migration Protocol Buffer Schema
 const typeDefs = `
 syntax = "proto3";
 message MigrationPayload {
@@ -38,7 +38,6 @@ message MigrationPayload {
 }
 `;
 
-// 2. Generate otpauth URI
 export function generateOtpAuthUri(
   issuer: string,
   name: string,
@@ -50,7 +49,6 @@ export function generateOtpAuthUri(
   )}?secret=${secret}&issuer=${encodeURIComponent(issuer)}`;
 }
 
-// 3. Generate Google Migration QR
 export async function generateGoogleMigrationQR(
   accounts: { issuer: string; name: string; secret: string }[]
 ): Promise<void> {
@@ -76,8 +74,8 @@ export async function generateGoogleMigrationQR(
     batchId: Math.floor(Math.random() * 1000000),
   };
 
-  // Encode
   const message = MigrationPayload.create(payload);
+  
   const buffer = MigrationPayload.encode(message).finish();
 
   const dataParam = Buffer.from(buffer)
@@ -91,7 +89,7 @@ export async function generateGoogleMigrationQR(
   console.log(
     "Scan this QR code with Google Authenticator to import all accounts:"
   );
-  console.log(uri);
+
   qrcode.generate(uri, { small: true });
 }
 

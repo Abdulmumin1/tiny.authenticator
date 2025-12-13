@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { render, Text, Box, useInput, useApp } from "ink";
 import TextInput from "ink-text-input";
 import clipboardy from "clipboardy";
-// import BigText from "ink-big-text";
 import base32Decode from "base32-decode";
 import { Authenticator } from "./authenticator";
 import { decode, readQRCode, readQRFromSelection, parseOtpAuthUri } from "./import";
@@ -204,13 +203,11 @@ const ShowAllComponent: React.FC<{
 }> = ({ initialAccounts, initialTokens, auth }) => {
   const { exit } = useApp();
 
-  // State
   const [accounts, setAccounts] = useState(initialAccounts);
   const [tokens, setTokens] = useState(initialTokens);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // Delete State
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [deleteActionIndex, setDeleteActionIndex] = useState(0); // 0 = Cancel, 1 = Delete
 
@@ -227,7 +224,6 @@ const ShowAllComponent: React.FC<{
     return () => clearInterval(timer);
   }, [accounts, auth]);
 
-  // --- 2. Clipboard Reset Logic (5s) ---
   useEffect(() => {
     if (copiedId) {
       const timer = setTimeout(() => {
@@ -237,12 +233,10 @@ const ShowAllComponent: React.FC<{
     }
   }, [copiedId]);
 
-  // --- Input Handling ---
   useInput(async (input, key) => {
     // A. CONFIRMATION MODE INPUTS
     if (isConfirmingDelete) {
       if (key.upArrow || key.downArrow) {
-        // Toggle between 0 (Cancel) and 1 (Delete)
         setDeleteActionIndex((prev) => (prev === 0 ? 1 : 0));
       }
 
@@ -335,7 +329,6 @@ const ShowAllComponent: React.FC<{
           </Text>
 
           <Box marginTop={1} flexDirection="column">
-            {/* Option 0: Cancel */}
             <Box>
               <Text color={ACCENT_COLOR} bold={deleteActionIndex === 0}>
                 {deleteActionIndex === 0 ? "› " : "  "}
@@ -344,7 +337,6 @@ const ShowAllComponent: React.FC<{
                 Cancel
               </Text>
             </Box>
-            {/* Option 1: Delete */}
             <Box>
               <Text color={ACCENT_COLOR} bold={deleteActionIndex === 1}>
                 {deleteActionIndex === 1 ? "› " : "  "}
@@ -442,13 +434,11 @@ async function main() {
       readQRFromSelection().then(uri => {
         const { issuer, name, secret } = parseOtpAuthUri(uri);
         console.log(`Detected: ${issuer}:${name}`);
-        // Now prompt for account name, with secret pre-filled
         const accountName = `${issuer}:${name}`;
         const auth = new Authenticator();
         auth.register(accountName, secret).then(success => {
           if (success) {
             console.log(`✓ Registered: ${accountName}`);
-            // Show the token
             auth.getTokenForAccount(accountName).then(token => {
               console.log(`Current token: ${token}`);
               process.exit(0);
@@ -504,9 +494,7 @@ async function main() {
         process.exit(1);
       });
     } else if (args[1] === "qr" && args[2]) {
-      // Export single account QR
       const auth = new Authenticator();
-      // console.log
       auth.retrieveSecret(args[2]).then(secret => {
         if (secret) {
            // @ts-ignore
@@ -527,7 +515,6 @@ async function main() {
   } else if (args[0] === "import") {
     if (args[1] === "google") {
       if (args[2]) {
-        // URI provided as arg
         decode(args[2]).then(async accounts => {
           console.log("Decoded accounts:");
           const auth = new Authenticator();
@@ -592,7 +579,6 @@ async function main() {
     }
     const tokens: Record<string, string | null> = {};
 
-    // Fetch initial tokens
     for (const { account } of filteredAccounts) {
       tokens[account] = await auth.getTokenForAccount(account);
     }
