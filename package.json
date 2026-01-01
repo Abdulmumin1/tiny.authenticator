@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build:node": "bun build ./index.tsx --outdir ./dist --target node",
-    "build:bin": "bun build --compile --minify ./index.tsx --outfile tinyuth"
+    "build:bin": "bun scripts/build-bin.ts"
   },
   "bin": {
     "tinyuth": "dist/index.js"

@@ -20,7 +20,6 @@ $form.TopMost = $true
 $form.Cursor = [System.Windows.Forms.Cursors]::Cross
 
 # Create graphics for drawing selection rectangle
-$graphics = $null
 $pen = New-Object Drawing.Pen ([System.Drawing.Color]::Red), 2
 
 # Mouse events
@@ -67,26 +66,25 @@ $form.add_Paint({
 $form.ShowDialog()
 
 # After selection, capture the area
-if ($startPoint -and $endPoint) {
-    $x = [Math]::Min($startPoint.X, $endPoint.X)
-    $y = [Math]::Min($startPoint.Y, $endPoint.Y)
-    $width = [Math]::Abs($endPoint.X - $startPoint.X)
-    $height = [Math]::Abs($endPoint.Y - $startPoint.Y)
+if ($script:startPoint -and $script:endPoint) {
+    $x = [Math]::Min($script:startPoint.X, $script:endPoint.X)
+    $y = [Math]::Min($script:startPoint.Y, $script:endPoint.Y)
+    $width = [Math]::Abs($script:endPoint.X - $script:startPoint.X)
+    $height = [Math]::Abs($script:endPoint.Y - $script:startPoint.Y)
 
     if ($width -gt 10 -and $height -gt 10) {  # Minimum size check
         # Capture screen area
         $bounds = New-Object Drawing.Rectangle $x, $y, $width, $height
         $bitmap = New-Object Drawing.Bitmap $width, $height
-        $graphics = [Drawing.Graphics]::FromImage($bitmap)
-        $graphics.CopyFromScreen($bounds.Location, [Drawing.Point]::Empty, $bounds.Size)
+        $captureGraphics = [Drawing.Graphics]::FromImage($bitmap)
+        $captureGraphics.CopyFromScreen($bounds.Location, [Drawing.Point]::Empty, $bounds.Size)
 
         # Save to file
         $bitmap.Save($tempFile, [System.Drawing.Imaging.ImageFormat]::Png)
-        $graphics.Dispose()
+        $captureGraphics.Dispose()
         $bitmap.Dispose()
     }
 }
 
 # Cleanup
-if ($graphics) { $graphics.Dispose() }
 $pen.Dispose()

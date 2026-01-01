@@ -1,11 +1,23 @@
 # Tiny Authenticator
 
-A Cli TOTP (Time-based One-Time Password) authenticator built with TypeScript and Ink. Manage your 2FA tokens with ease, supporting registration via QR codes, secure storage, and export/import capabilities compatible with Google Authenticator.
+A CLI TOTP (Time-based One-Time Password) authenticator built with TypeScript and Ink. Manage your 2FA tokens with ease, supporting registration via QR codes, secure storage, and export/import capabilities compatible with Google Authenticator.
 
+## Installation
+
+### Quick Install (Recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Abdulmumin1/tiny.authenticator/main/install.sh | bash
+```
+
+This downloads the prebuilt binary for your platform and adds it to your PATH.
+
+### Via npm/bun
 
 ```bash
 bun add -g tinyuth@latest
-# or npm or pnpm
+# or
+npm install -g tinyuth@latest
 ```
 
 ![](https://rawcontent.dearfutureself.me/portfolio/tiny-uth-image-2.png)
@@ -49,12 +61,7 @@ bun install
 
 ## Usage
 
-### Basic Commands
-
 ```bash
-# install
-bun add -g tinyuth 
-
 # Show usage
 tinyuth
 
@@ -109,9 +116,8 @@ tinyuth export qr "issuer:name"
 
 ## Requirements
 
-- Node.js/Bun runtime
 - macOS, Linux, or Windows
-- For QR capture: ImageMagick or system screenshot tools
+- For QR capture: system screenshot tools (built-in)
 
 ## Development
 
