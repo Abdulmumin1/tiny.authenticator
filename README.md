@@ -6,8 +6,14 @@ A CLI TOTP (Time-based One-Time Password) authenticator built with TypeScript an
 
 ### Quick Install (Recommended)
 
+**macOS/Linux:**
 ```bash
 curl -fsSL https://tinyuth.yaqeen.me/install.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+irm https://tinyuth.yaqeen.me/install.ps1 | iex
 ```
 
 This downloads the prebuilt binary for your platform and adds it to your PATH.
