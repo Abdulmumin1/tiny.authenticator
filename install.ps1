@@ -4,7 +4,7 @@ $PRIMARY = "#FF69B4"
 $REPO = "Abdulmumin1/tiny.authenticator"
 $INSTALL_DIR = "$env:USERPROFILE\.tinyuth\bin"
 
-function Write-Primary { param($text) Write-Host $text -ForegroundColor $PRIMARY }
+function Write-Primary { param($text) Write-Host $text }
 function Write-Muted { param($text) Write-Host $text -ForegroundColor Gray }
 function Write-Info { param($text) Write-Host $text -ForegroundColor Cyan }
 
