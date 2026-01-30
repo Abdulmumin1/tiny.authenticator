@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$PRIMARY = "FF69B4"
+$PRIMARY = "#FF69B4"
 $REPO = "Abdulmumin1/tiny.authenticator"
 $INSTALL_DIR = "$env:USERPROFILE\.tinyuth\bin"
 
